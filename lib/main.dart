@@ -152,10 +152,34 @@ class MyHomePage extends StatelessWidget {
               runSpacing: 8,
               children: [
                 Skills(
-                  title: 'lightroom',
+                  title: 'Lightroom',
                   imagePath: 'assets/images/photoshop-lightroom.png',
                   shadowColor: Colors.blue,
                   isAactive: true,
+                ),
+                Skills(
+                  title: 'Adobe Xd',
+                  imagePath: 'assets/images/xd.png',
+                  shadowColor: Colors.pink,
+                  isAactive: false,
+                ),
+                Skills(
+                  title: 'Illustrator',
+                  imagePath: 'assets/images/illustrator.png',
+                  shadowColor: Colors.orange,
+                  isAactive: false,
+                ),
+                Skills(
+                  title: 'After Effect',
+                  imagePath: 'assets/images/after-effects.png',
+                  shadowColor: Colors.blue,
+                  isAactive: false,
+                ),
+                Skills(
+                  title: 'Premiere',
+                  imagePath: 'assets/images/premiere-pro.png',
+                  shadowColor: Colors.purple,
+                  isAactive: false,
                 ),
               ],
             ),
@@ -197,7 +221,10 @@ class Skills extends StatelessWidget {
             height: 40,
             width: 40,
           ),
-          Text('lightroom'),
+          const SizedBox(
+            height: 8,
+          ),
+          Text(title),
         ],
       ),
     );
