@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() {
   runApp(const MyApp());
@@ -23,9 +25,17 @@ class _MyAppState extends State<MyApp> {
 
     return MaterialApp(
       title: 'Flutter Demo',
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: AppLocalizations.supportedLocales,
+      locale: Locale('fa'),
       theme: _themeMode == ThemeMode.dark
-          ? MyAppThemeConfig.dark().getTheme()
-          : MyAppThemeConfig.light().getTheme(),
+          ? MyAppThemeConfig.dark().getTheme('fa')
+          : MyAppThemeConfig.light().getTheme('fa'),
       home: MyHomePage(
         toggleThemeMode: () {
           setState(() {
@@ -41,6 +51,7 @@ class _MyAppState extends State<MyApp> {
 }
 
 class MyAppThemeConfig {
+  static const String faPrimaryFontFamily = 'IranYekan';
   final Color primaryColor = Colors.pink.shade400;
   final Color primaryTextColor;
   final Color secondaryTextColor;
@@ -65,7 +76,7 @@ class MyAppThemeConfig {
         appBarColor = Color.fromARGB(255, 235, 235, 235),
         brightness = Brightness.light;
 
-  ThemeData getTheme() {
+  ThemeData getTheme(String languageCode) {
     return ThemeData(
       // This is the theme of your application.
       //
@@ -96,20 +107,37 @@ class MyAppThemeConfig {
               borderSide: BorderSide.none),
           filled: true,
           fillColor: surfaceColor),
-      textTheme: GoogleFonts.latoTextTheme(
-        TextTheme(
-          bodyText2: TextStyle(fontSize: 15, color: primaryTextColor),
-          bodyText1: TextStyle(fontSize: 13, color: secondaryTextColor),
-          headline6:
-              TextStyle(fontWeight: FontWeight.bold, color: primaryTextColor),
-          subtitle1: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: primaryTextColor),
-        ),
-      ),
+      textTheme: languageCode == 'en' ? enPrimaryTextTheme : faPrimaryTextTheme,
     );
   }
+
+  TextTheme get enPrimaryTextTheme => GoogleFonts.latoTextTheme(TextTheme(
+        bodyText2: TextStyle(fontSize: 15, color: primaryTextColor),
+        bodyText1: TextStyle(fontSize: 13, color: secondaryTextColor),
+        headline6:
+            TextStyle(fontWeight: FontWeight.bold, color: primaryTextColor),
+        subtitle1: TextStyle(
+            fontSize: 16, fontWeight: FontWeight.bold, color: primaryTextColor),
+      ));
+  TextTheme get faPrimaryTextTheme => TextTheme(
+        bodyText2: TextStyle(
+            fontSize: 15,
+            color: primaryTextColor,
+            fontFamily: faPrimaryFontFamily),
+        bodyText1: TextStyle(
+            fontSize: 13,
+            color: secondaryTextColor,
+            fontFamily: faPrimaryFontFamily),
+        headline6: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: primaryTextColor,
+            fontFamily: faPrimaryFontFamily),
+        subtitle1: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: primaryTextColor,
+            fontFamily: faPrimaryFontFamily),
+      );
 }
 
 class MyHomePage extends StatefulWidget {
@@ -130,9 +158,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
-        title: Text('carriculm vitae'),
+        title: Text(localization.profile),
         // ignore: prefer_const_literals_to_create_immutables
         actions: [
           Icon(CupertinoIcons.chat_bubble),
@@ -171,13 +200,13 @@ class _MyHomePageState extends State<MyHomePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'brice sorophin',
+                          localization.name,
                           style: Theme.of(context).textTheme.subtitle1,
                         ),
                         SizedBox(
                           height: 2,
                         ),
-                        Text('product & print desinger'),
+                        Text(localization.job),
                         SizedBox(
                           height: 8,
                         ),
@@ -190,7 +219,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   Theme.of(context).textTheme.bodyText1!.color,
                             ),
                             SizedBox(width: 3),
-                            Text('paris.france',
+                            Text(localization.location,
                                 style: Theme.of(context).textTheme.bodyText1),
                           ],
                         ),
@@ -207,7 +236,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Padding(
               padding: const EdgeInsets.fromLTRB(32, 0, 32, 16),
               child: Text(
-                'hi everyone , its me desinger in love of infependece, i have okot of experince in grophical projects and always give the best of myself to bring you to success ',
+                localization.summary,
                 style: Theme.of(context).textTheme.caption,
               ),
             ),
